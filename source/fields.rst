@@ -1,7 +1,7 @@
 Fields
 ======
 
-Now fields are class property: ::
+Now fields are a class property: ::
 
     from openerp import models, fields
 
@@ -35,7 +35,7 @@ Now fields are class property: ::
 Field inheritance
 ------------------
 
-One of the new features of the API is to be able to change only one attribute of the field: ::
+One of the new features of the API is to be able to change only one attribute of a field: ::
 
    name = fields.Char(string='New Value')
 
@@ -65,7 +65,7 @@ Specific options:
 Text
 ####
 
-Used to store long text.: ::
+Used to store long text: ::
 
     atext = fields.Text()
 
@@ -98,7 +98,7 @@ Float
 #####
 
 Store float value. No NULL value support. If value is not set it returns 0.0
-If digits option is set it will use numeric type: ::
+If digits option is set it will use the numeric type: ::
 
 
     afloat = fields.Float()
@@ -107,7 +107,7 @@ If digits option is set it will use numeric type: ::
 
 Specific options:
 
-  * digits: force use of numeric type on database. Parameter can be a tuple (int len, float len) or a callable that return a tuple and take a cursor as parameter
+  * digits: force use of numeric type on the database. Parameters can be a tuple (int len, float len) or a callable that return a tuple and take a cursor as parameter
 
 Date
 ####
@@ -169,8 +169,8 @@ Store file encoded in base64 in bytea column: ::
 Selection
 #########
 
-Store text in database but propose a selection widget.
-It induces no selection constraint in database.
+Stored as text in the database but propose a selection widget.
+It induces no selection constraint in the database.
 Selection must be set as a list of tuples or a callable that returns a list of tuples: ::
 
     aselection = fields.Selection([('a', 'A')])
@@ -179,7 +179,7 @@ Selection must be set as a list of tuples or a callable that returns a list of t
 
 Specific options:
 
-  * selection: a list of tuple or a callable name that take recordset as input
+  * selection: a list of tuples or a callable name that takes recordset as input
 
 Reference
 #########
@@ -192,7 +192,7 @@ Store an arbitrary reference to a model and a row: ::
 
 Specific options:
 
-  * selection: a list of tuple or a callable name that take recordset as input
+  * selection: a list of tuples or a callable name that take recordset as input
 
 
 Many2one
@@ -267,7 +267,7 @@ You can attribute it a value or a function
    def a_fun(self):
       return self.do_something()
 
-Using a fun will force you to define function before fields definition.
+Using a function will force you to define the function before fields definition.
 
 
 
@@ -296,7 +296,7 @@ It should modify record property in order to be written to the cache: ::
 
 Be aware that this assignation will trigger a write into the database.
 If you need to do bulk change or must be careful about performance,
-you should do classic call to write
+you should do a classic call to write.
 
 To provide a search function on a non stored computed field
 you have to add a ``search`` kwarg on the field. The value is the name of the function
@@ -316,7 +316,7 @@ when the field is written/"created"
 
 Multi Fields
 ------------
-To have one function that compute multiple values: ::
+To have one function that computes multiple values: ::
 
     @api.multi
     @api.depends('field.relation', 'an_otherfield.relation')
@@ -329,7 +329,7 @@ To have one function that compute multiple values: ::
 Related Field
 -------------
 
-There is not anymore ``fields.related`` fields.
+There is no ``fields.related`` anymore.
 
 Instead you just set the name argument related to your model: ::
 
@@ -339,7 +339,7 @@ Instead you just set the name argument related to your model: ::
 The ``type`` kwarg is not needed anymore.
 
 Setting the ``store`` kwarg will automatically store the value in database.
-With new API the value of the related field will be automatically
+With the new API the value of the related field will be automatically
 updated, sweet. ::
 
   participant_nick = fields.Char(string='Nick name',
@@ -358,12 +358,12 @@ for all elements of the chain.
 Property Field
 --------------
 
-There is some use cases where value of the field must change depending of
+There are some use cases where the value of the field must change depending on
 the current company.
 
 To activate such behavior you can now use the `company_dependent` option.
 
-A notable evolution in new API is that "property fields" are now searchable.
+A notable evolution in the new API is that "property fields" are now searchable.
 
 WIP copyable option
 -------------------

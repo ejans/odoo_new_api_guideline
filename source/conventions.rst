@@ -52,7 +52,7 @@ A typical module import would be: ::
 
 Classes
 -------
-Class should be initialized like this: ::
+A class should be initialized like this: ::
 
     class Toto(models.Model):
        pass
@@ -116,7 +116,7 @@ the first request, and is then sent to a polling request.
 Compatibility
 #############
 
-When catching orm exception we should catch both types of exceptions: ::
+When catching an orm exception we should catch both types of exceptions: ::
 
     try:
         pass
@@ -127,21 +127,21 @@ When catching orm exception we should catch both types of exceptions: ::
 Fields
 ------
 
-Fields should be declared using new fields API.
-Putting string key is better than using a long property name: ::
+Fields should be declared using the new fields API.
+Using the string key is better than using a long property name: ::
 
     class AClass(models.Model):
 
         name = fields.Char(string="This is a really long long name")  # ok
         really_long_long_long_name = fields.Char()
 
-That said the property name must be meaningful. Avoid name like 'nb' etc.
+That said the property name must be meaningful. Avoid names like 'nb' etc.
 
 
 Default or compute
 ------------------
 
-``compute`` option should not be used as a workaround to set default.
+The ``compute`` option should not be used as a workaround to set default.
 Defaut should only be used to provide property initialisation.
 
 That said they may share the same function.
@@ -163,7 +163,7 @@ it will not be committed but only be done in cache.
 Using Cursor
 ------------
 
-When using cursor you should use current environment cursor: ::
+When using cursor you should use the current environment cursor: ::
 
       self.env.cr
 
@@ -186,7 +186,7 @@ You should define the display_name field with options:
 Constraints
 -----------
 
-Should be done using ``@api.constrains`` decorator in
+This should be done using ``@api.constrains`` decorator in
 conjunction with the ``@api.one`` if performance allows it.
 
 
@@ -200,7 +200,7 @@ standard view (non Qweb) should be the preferred choice.
 Javascript and Website related code
 -----------------------------------
 
-General guidelines should be found:
+General guidelines:
 
  * https://doc.openerp.com/trunk/web/guidelines/
  * https://doc.openerp.com/trunk/server/howto/howto_website/

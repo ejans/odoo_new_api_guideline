@@ -2,7 +2,7 @@ Odoo New API Guidelines
 =======================
 
 New API guidelines made during OpenDays 2014. They are written using Sphinx documentation format.
-You will find below a small index to facilitate navigation in github
+You will find a small index to facilitate navigation in github below.
 
 
 

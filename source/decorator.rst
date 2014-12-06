@@ -1,11 +1,12 @@
 Method and decorator
 ====================
 
-New decorators are just mapper around the new API.
-The decorator are mandatory as webclient and HTTP controller are not compliant with new API.
+New decorators are just a mapper around the new API.
+The decorators are mandatory as the webclient and HTTP controller are not compliant
+with the new API.
 
-``api`` namespace decorators will detect signature using variable name
-and decide to match old signature or not.
+``api`` namespace decorators will detect the signature using variable name
+and decide to match the old signature or not.
 
 Recognized variable names are:
 
@@ -15,8 +16,8 @@ Recognized variable names are:
 @api.returns
 ------------
 
-This decorator guaranties unity of returned value.
-It will return a RecordSet of specified model based on original returned value: ::
+This decorator guaranties unity of the returned value.
+It will return a RecordSet of a specified model based on the original returned value: ::
 
     @api.returns('res.partner')
     def afun(self):
@@ -31,8 +32,8 @@ All decorators inherits from this decorator to upgrade or downgrade the returned
 @api.one
 --------
 
-This decorator loops automatically on Records of RecordSet for you.
-Self is redefined as current record: ::
+This decorator loops automatically on Records of RecordSet.
+Self is redefined as the current record: ::
 
   @api.one
   def afun(self):
@@ -59,7 +60,7 @@ It is the default behavior: ::
 @api.model
 ----------
 
-This decorator will convert old API calls to decorated function to new API signature.
+This decorator will convert old API calls to a decorated function to the new API signature.
 It allows to be polite when migrating code. ::
 
     @api.model
@@ -69,7 +70,7 @@ It allows to be polite when migrating code. ::
 @api.constrains
 ---------------
 
-This decorator will ensure that decorated function will be called on create, write, unlink operation.
+This decorator will ensure that decorated function will be called on create, write and unlink operations.
 If a constraint is met the function should raise a `openerp.exceptions.Warning` with appropriate message.
 
 @api.depends
@@ -104,23 +105,23 @@ fields specified in the decorator is changed in the form: ::
      if self.fieldx == x:
         self.fieldy = 'toto'
 
-In previous sample `self` corresponds to the record currently edited on the form.
+In the previous sample `self` corresponds to the record currently edited on the form.
 When in on_change context all work is done in the cache.
-So you can alter RecordSet inside your function without being worried about altering database.
+So you can alter RecordSet inside your function without worrying about altering the database.
 That's the main difference with ``@api.depends``
 
-At function return, differences between the cache and the RecordSet will be returned
+At function return, the differences between the cache and the RecordSet will be returned
 to the form.
 
 View management
 ###############
-One of the great improvement of the new API is that the onchange are automatically inserted into the form for you in a simple way.
+One of the great improvements of the new API is that the onchange functions are automatically inserted into the form for you in a simple way.
 You do not have to worry about modifying views anymore.
 
 Warning and Domain
 ##################
 To change domain or send a warning just return the usual dictionary.
-Be careful not to use ``@api.one`` in that case as it will mangle the
+Be careful not to use ``@api.one`` in this case as it will mangle the
 dictionary (put it in a list, which is not supported by the web client).
 
 

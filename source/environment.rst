@@ -1,9 +1,9 @@
 Record/Recordset and Model
 ==========================
 
-The new version 8.0 of OpenERP/Odoo introduce a new ORM API.
+Version 8.0 of OpenERP/Odoo introduces a new ORM API.
 
-It intends to add a more coherent and concise syntax and provide a bi-directional compatibility.
+It intends to add a more coherent and concise syntax and provides a bi-directional compatibility.
 
 The new API keeps its previous root design as Model and Record but now adds
 new concepts like Environment and Recordset.
@@ -16,12 +16,12 @@ Model
 
 A model is a representation of a business Object.
 
-It is basically a class that define various class know-how and fields that are stored in database.
+It is basically a class that define various class know-how and fields that are stored in the database.
 All functions defined in a Model where previously callable directly by the Model.
 
 This paradigm has changed as generally you should not access Model directly but a RecordSet see :ref:`recordset`
 
-To instantiate a model you must inherit an openerp.model.Model: ::
+To instantiate a model you must inherit an openerp.models.Model: ::
 
     from openerp import models, fields, api, _
 
@@ -54,10 +54,10 @@ for fields inheritance please read :ref:`fields_inherit`
 Recordset
 ---------
 
-All instances of Model are at the same time instances of a RecordSet.
+All instances of the Model are at the same time instances of a RecordSet.
 A Recorset represents a sorted set of records of the same Model as the RecordSet.
 
-You can call function on recordset: ::
+You can call functions on the recordset: ::
 
     class AModel(Model):
     # ...
@@ -76,18 +76,18 @@ the ``self`` variable is in fact an instance of RecordSet containing many Record
 So the self passed in the ``do_something`` is a RecordSet holding a list of Records.
 
 If you decorate a function with ``@api.one`` it will automagically loop
-on the Records of current RecordSet and self will this time be the current Record.
+over the Records of the current RecordSet and self will this time be the current Record.
 
-As described in :ref:`records` you have now access to a pseudo Active-Record pattern
+As described in :ref:`records` you now have access to a pseudo Active-Record pattern
 
 .. note::
-   If you use it on a RecordSet it will break if recordset does not contains only one item.!!
+   If you use it on a RecordSet it will break if recordset does not contain only one item.!!
 
 
 Supported Operations
 --------------------
 
-RecordSet also support set operations
+RecordSet also supports set operations
 you can add, union and intersect, ... recordset: ::
 
     record in recset1       # include
@@ -107,7 +107,7 @@ RecordSet can also be sorted: ::
 Useful helpers
 --------------
 
-The new API provides useful helper on recordset to use them in a more functional apprach
+The new API provides useful helpers on recordset to use them in a more functional approach
 
 You can filter an exisiting recordset quite easily: ::
 
@@ -139,15 +139,15 @@ The ids Attribute
 -----------------
 
 The ids attribute is a special attribute of RecordSet.
-It will be return even if there is more than one Record in RecordSet
+It will return even if there is more than one Record in RecordSet
 
 .. _records:
 
 Record
 ------
 
-A Record mirrors a "populated instance of Model Record" fetched from database.
-It proposes abstraction over database using caches and query generation: ::
+A Record mirrors a "populated instance of Model Record" fetched from the database.
+It proposes abstraction over the database using caches and query generation: ::
 
   >>> record = self
   >>> record.name
@@ -159,7 +159,7 @@ It proposes abstraction over database using caches and query generation: ::
 Displayed Name of Record
 ########################
 
-With new API a notion of display name is introduced.
+With the new API a notion of display name is introduced.
 It uses the function ``name_get`` under the hood.
 
 
@@ -167,7 +167,7 @@ So if you want to override the display name you should override the ``display_na
 `Example <https://github.com/odoo/odoo/blob/8.0/openerp/addons/base/res/res_partner.py#L232>`_
 
 
-If you want to override both display name and computed relation name you should override ``name_get``.
+If you want to override both the display name and the computed relation name you should override ``name_get``.
 `Example <https://github.com/odoo/odoo/blob/8.0/addons/event/event.py#L194>`_
 
 
@@ -177,18 +177,18 @@ Active Record Pattern
 #####################
 
 One of the new features introduced by the new API is a basic support of the active record pattern.
-You can now write to database by setting properties: ::
+You can now write to the database by setting properties: ::
 
   record = self
   record.name = 'new name'
 
-This will update value on the caches and call the write function to trigger a write action on the Database.
+This will update the value on the caches and call the write function to trigger a write action on the Database.
 
 
 Active Record Pattern Be Careful
 ################################
 
-Writing value using Active Record pattern must be done carefully.
+Writing values using Active Record pattern must be done carefully.
 As each assignement will trigger a write action on the database: ::
 
 
@@ -198,8 +198,8 @@ As each assignement will trigger a write action on the database: ::
       self.y = 2
       self.z = 4
 
-On this sample each assignement will trigger a write.
-As the function is decorated with ``@api.one`` for each record in RecordSet write will be called 3 times.
+In this example each assignement will trigger a write.
+As the function is decorated with ``@api.one`` for each record in RecordSet, write will be called 3 times.
 So if you have 10 records in recordset the number of writes will be 10*3 = 30.
 
 This may cause some trouble on an heavy task. In that case you should do: ::
@@ -219,10 +219,10 @@ Chain of Browse_null
 ####################
 
 
-Empty relation now returns an empty RecordSet.
+The empty relation now returns an empty RecordSet.
 
 In the new API if you chain a relation with many empty relations,
-each relation will be chained and an empty RecordSet should be return at the end.
+each relation will be chained and an empty RecordSet should be returned at the end.
 
 
 Environment
@@ -230,12 +230,12 @@ Environment
 
 In the new API the notion of Environment is introduced.
 Its main objective is to provide an encapsulation around
-cursor, user_id, model, and context, Recordset and caches
+cursor, user_id, model, context, Recordset and caches
 
 .. image:: Diagram1.png
 
 
-With this adjonction you are not anymore forced to pass the infamous function signature: ::
+With this adjunction it's not needed to pass the infamous function signature: ::
 
 
     # before
@@ -266,7 +266,7 @@ may use the with_context() function. ::
 
   self.env['res.partner'].with_context(tz=x).create(vals)
 
-Be careful not to modify current RecordSet using this functionality: ::
+Be careful not to modify the current RecordSet using this functionality: ::
 
    self = self.env['res.partner'].with_context(tz=x).browse(self.ids)
 
@@ -277,7 +277,7 @@ It will modifiy the current Records in RecordSet after a rebrowse and will gener
 Changing User
 #############
 
-Environment provides an helper to switch user: ::
+Environment provides a helper to switch the user: ::
 
     self.sudo(user.id)
     self.sudo()   # This will use the SUPERUSER_ID by default
@@ -305,7 +305,7 @@ Cleaning Environment Caches
 As explained previously an Environment maintains multiple caches
 that are used by the Moded/Fields classes.
 
-Sometimes you will have to do insert/write using the cursor directly.
+Sometimes you will have to use insert/write using the cursor directly.
 In this cases you want to invalidate the caches: ::
 
   self.env.invalidate_all()
@@ -319,13 +319,13 @@ Searching
 Searching has not changed a lot. Sadly the domain changes
 announced did not meet release 8.0.
 
-You will find main changes below.
+The main changes are described below.
 
 
 search
 ######
 
-Now seach function returns directly a RecordSet: ::
+Now seach functions return a RecordSet directly: ::
 
     >>> self.search([('is_company', '=', True)])
     res.partner(7, 6, 18, 12, 14, 17, 19, 8,...)
@@ -344,7 +344,7 @@ search_read
 A ``search_read`` function is now available. It will do a search
 and return a list of dict.
 
-Here we retrieve all partners name: ::
+Here we retrieve all partner names: ::
 
     >>> self.search_read([], ['name'])
     [{'id': 3, 'name': u'Administrator'},
@@ -354,7 +354,8 @@ Here we retrieve all partners name: ::
 
 search_count
 ############
-The ``search_count`` function returns the count of results matching search domain: ::
+
+The ``search_count`` function returns the count of results matching the search domain: ::
 
     >>> self.search_count([('is_company', '=', True)])
     26L
@@ -383,7 +384,7 @@ You can now write using Active Record pattern: ::
       self.x = 1
       self.name = 'a'
 
-More info about the subtility of the Active Record write pattern here :ref:`records`
+More info about the Active Record write pattern here :ref:`records`
 
 The classical way of writing is still available.
 
@@ -410,13 +411,13 @@ From RecordSet: ::
     # It will write on all record.
     self.line_ids.write({'key': value })
 
-It will write on all Records of the relation line_ids
+this will write on all Records of the relation line_ids
 
 Many2many One2many Behavior
 ###########################
 
-One2many and Many2many fields have some special behavior to be taken in account.
-At that time (this may change at release) using create on a multiple relation fields
+One2many and Many2many fields have some special behavior to be taken into account.
+At the time (this may change at release) using create on a multiple relation field
 will not introspect to look for the relation. ::
 
   self.line_ids.create({'name': 'Tho'})   # this will fail as order is not set
@@ -455,7 +456,7 @@ From RecordSet: ::
 Create
 ------
 
-Create has not changed, except the fact it now returns a recordset: ::
+Create has not changed, except the fact that it now returns a recordset: ::
 
   self.create({'name': 'New name'})
 
@@ -471,14 +472,14 @@ Using Cursor
 
 Record Recordset and environment share the same cursor.
 
-So you can access cursor using: ::
+So you can access the cursor using: ::
 
   def my_fun(self):
       cursor = self._cr
       # or
       self.env.cr
 
-Then you can use cursor like in previous API
+Then you can use cursor like in the previous API
 
 
 Using Thread
@@ -493,8 +494,8 @@ committing is done by committing the cursor: ::
 New ids
 =======
 
-When creating a record a model with computed fields, the records of the recordset will be in memory only.
-At that time the `id` of the record will be a dummy ids of type :py:class:`openerp.models.NewId`
+When creating a record or a model with computed fields, the records of the recordset will be in memory only.
+At this time the `id` of the record will be a dummy ids of type :py:class:`openerp.models.NewId`
 
 So if you need to use the record `id` in your code (e.g. for a sql query) you should check if it is available: ::
 
